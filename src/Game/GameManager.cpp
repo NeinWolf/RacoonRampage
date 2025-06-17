@@ -1,0 +1,165 @@
+#include "GameManager.h"
+#include "../UI/MainMenu.h"
+#include "../UI/SettingsMenu.h"
+#include "../UI/PauseMenu.h"
+#include "raylib.h"
+
+GameManager::GameManager() : 
+    currentState(GameState::MAIN_MENU),
+    score(0),
+    highScore(0),
+    gameTimer(0),
+    shouldClose(false) {
+    
+    player = std::make_unique<Player>();
+    waveManager = std::make_unique<WaveManager>();
+    audioManager = std::make_unique<AudioManager>();
+    hud = std::make_unique<HUD>();
+    
+    highScore = SaveSystem::LoadHighScore();
+    InitializeMenus();
+}
+
+GameManager::~GameManager() {
+    // Cleanup handled by smart pointers
+}
+
+void GameManager::InitializeMenus() {
+    menus[GameState::MAIN_MENU] = std::make_unique<MainMenu>(this);
+    menus[GameState::SETTINGS] = std::make_unique<SettingsMenu>(this, audioManager.get());
+    menus[GameState::PAUSE] = std::make_unique<PauseMenu>(this);
+    
+    currentMenu = std::move(menus[GameState::MAIN_MENU]);
+}
+
+void GameManager::Update() {
+    float deltaTime = GetFrameTime();
+    
+    switch (currentState) {
+        case GameState::MAIN_MENU:
+        case GameState::SETTINGS:
+        case GameState::PAUSE:
+            currentMenu->Update();
+            break;
+            
+        case GameState::ARENA:
+            UpdateArena(deltaTime);
+            break;
+            
+        case GameState::GAME_OVER:
+            if (IsKeyPressed(KEY_ENTER)) {
+                ResetGame();
+                SetGameState(GameState::MAIN_MENU);
+            }
+            break;
+            
+        default: break;
+    }
+}
+
+void GameManager::UpdateArena(float deltaTime) {
+    if (IsKeyPressed(KEY_BACKSPACE)) {
+        SetGameState(GameState::PAUSE);
+        return;
+    }
+    
+    gameTimer += deltaTime;
+    player->Update(deltaTime);
+    waveManager->Update(deltaTime, enemies);
+    
+    for (auto& enemy : enemies) {
+        enemy->Update(deltaTime, player.get());
+        
+        if (enemy->IsAlive() && enemy->CheckCollision(player.get())) {
+            player->TakeDamage(enemy->GetDamage());
+            enemy->TakeDamage(100); // Instant kill for now
+            AddScore(10);
+        }
+    }
+    
+    if (player->GetHealth() <= 0) {
+        if (score > highScore) {
+            highScore = score;
+            SaveSystem::SaveHighScore(highScore);
+        }
+        SetGameState(GameState::GAME_OVER);
+    }
+    
+    CleanupEnemies();
+}
+
+void GameManager::CleanupEnemies() {
+    enemies.erase(
+        std::remove_if(enemies.begin(), enemies.end(),
+            [](const std::unique_ptr<Enemy>& enemy) { 
+                return !enemy->IsAlive(); 
+            }),
+        enemies.end()
+    );
+}
+
+void GameManager::Draw() {
+    BeginDrawing();
+    ClearBackground(BLACK);
+    
+    switch (currentState) {
+        case GameState::MAIN_MENU:
+        case GameState::SETTINGS:
+        case GameState::PAUSE:
+            currentMenu->Draw();
+            break;
+            
+        case GameState::ARENA:
+            // Draw arena background
+            for (int x = 0; x < 25; x++) {
+                for (int y = 0; y < 25; y++) {
+                    Vector2 isoPos = Utils::WorldToIso({static_cast<float>(x), static_cast<float>(y)});
+                    Vector2 screenPos = {400 + isoPos.x, 300 + isoPos.y};
+                    
+                    Color tileColor = (x % 2 == y % 2) ? DARKGRAY : GRAY;
+                    DrawRectangle(screenPos.x - 16, screenPos.y - 8, 32, 16, tileColor);
+                }
+            }
+            
+            // Draw entities
+            for (auto& enemy : enemies) {
+                enemy->Draw();
+            }
+            player->Draw();
+            hud->Draw(player.get(), score, waveManager->GetCurrentWave());
+            break;
+            
+        case GameState::GAME_OVER:
+            DrawText("GAME OVER", 300, 200, 40, RED);
+            DrawText(TextFormat("FINAL SCORE: %d", score), 300, 280, 30, WHITE);
+            if (score > highScore) {
+                DrawText("NEW HIGH SCORE!", 280, 320, 30, YELLOW);
+            }
+            DrawText("Press ENTER to continue", 250, 400, 25, WHITE);
+            break;
+            
+        default: break;
+    }
+    
+    EndDrawing();
+}
+
+void GameManager::SetGameState(GameState state) {
+    currentState = state;
+    if (menus.find(state) != menus.end()) {
+        currentMenu = std::move(menus[state]);
+    }
+}
+
+void GameManager::ResetGame() {
+    player = std::make_unique<Player>();
+    enemies.clear();
+    waveManager = std::make_unique<WaveManager>();
+    score = 0;
+    gameTimer = 0;
+}
+
+void GameManager::AddScore(int amount) {
+    score += amount;
+    player->AddScraps(amount / 10); // Convert some score to scraps
+}
