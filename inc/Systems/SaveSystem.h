@@ -10,4 +10,7 @@ public:
     static void LoadSettings(float& masterVolume, float& sfxVolume, float& musicVolume);
     static void SaveScraps(int scraps);
     static int LoadScraps();
+
+    static void SaveWeapon(const std::string& weaponName);
+    static std::string LoadWeapon();
 };

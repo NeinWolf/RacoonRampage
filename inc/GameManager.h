@@ -6,6 +6,7 @@
 #include "WaveManager.h"
 #include "AudioManager.h"
 #include "HUD.h"
+#include "Weapon.h"
 
 #include <vector>
 #include <memory>
@@ -60,5 +61,7 @@ private:
     void CleanupEnemies();
     void ResolveEnemyCollisions();
     void ResolvePlayerEnemyCollisions();
+
+    std::unique_ptr<Weapon> CreateWeaponFromName(const std::string& name);
 
 };
