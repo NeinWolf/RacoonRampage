@@ -75,6 +75,8 @@ set(HEADERS
 
 add_executable(RaccoonRampage ${SOURCES} ${HEADERS})
 
+target_compile_features(RaccoonRampage PRIVATE cxx_std_20)
+
 # Link Raylib + platform deps
 if(WIN32)
     target_link_libraries(RaccoonRampage PRIVATE raylib opengl32 gdi32 winmm)
