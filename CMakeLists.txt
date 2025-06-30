@@ -72,8 +72,9 @@ set(HEADERS
         inc/Utils.h
         inc/WaveManager.h
         inc/Weapon.h
+        inc/ShopMenu.h
         inc/UI/ShopMenu.h
-)
+
 
 add_executable(RaccoonRampage ${SOURCES} ${HEADERS})
 
