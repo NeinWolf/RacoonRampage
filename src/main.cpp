@@ -1,4 +1,4 @@
-#include "Game/GameManager.h"
+#include "GameManager.h"
 
 int main() {
     const int screenWidth = 800;

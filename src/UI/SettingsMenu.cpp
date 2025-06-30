@@ -1,15 +1,16 @@
 #include "SettingsMenu.h"
 #include "raylib.h"
+#include <cmath>
 
 SettingsMenu::SettingsMenu(GameManager* gm, AudioManager* am) 
     : Menu(gm), audioManager(am) {}
 
 void SettingsMenu::Update() {
     if (IsKeyPressed(KEY_LEFT)) {
-        audioManager->SetMasterVolume(fmax(0.0f, audioManager->GetMasterVolume() - 0.1f));
+        audioManager->SetMasterVolume(std::fmax(0.0f, audioManager->GetMasterVolume() - 0.1f));
     }
     if (IsKeyPressed(KEY_RIGHT)) {
-        audioManager->SetMasterVolume(fmin(1.0f, audioManager->GetMasterVolume() + 0.1f));
+        audioManager->SetMasterVolume(std::fmin(1.0f, audioManager->GetMasterVolume() + 0.1f));
     }
     if (IsKeyPressed(KEY_BACKSPACE) || IsKeyPressed(KEY_ENTER)) {
         gameManager->SetGameState(GameState::MAIN_MENU);

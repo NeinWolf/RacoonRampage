@@ -2,14 +2,17 @@
 #include "../UI/MainMenu.h"
 #include "../UI/SettingsMenu.h"
 #include "../UI/PauseMenu.h"
+#include "../Game/Utils.h"
 #include "raylib.h"
+#include <algorithm>   // Added for std::remove_if
 
 GameManager::GameManager() : 
     currentState(GameState::MAIN_MENU),
     score(0),
     highScore(0),
     gameTimer(0),
-    shouldClose(false) {
+    shouldClose(false),
+    currentMenu(nullptr) {   // Initialize pointer to nullptr
     
     player = std::make_unique<Player>();
     waveManager = std::make_unique<WaveManager>();
@@ -29,7 +32,7 @@ void GameManager::InitializeMenus() {
     menus[GameState::SETTINGS] = std::make_unique<SettingsMenu>(this, audioManager.get());
     menus[GameState::PAUSE] = std::make_unique<PauseMenu>(this);
     
-    currentMenu = std::move(menus[GameState::MAIN_MENU]);
+    currentMenu = menus[GameState::MAIN_MENU].get();  // Use raw pointer instead of moving unique_ptr
 }
 
 void GameManager::Update() {
@@ -39,7 +42,8 @@ void GameManager::Update() {
         case GameState::MAIN_MENU:
         case GameState::SETTINGS:
         case GameState::PAUSE:
-            currentMenu->Update();
+            if(currentMenu)
+                currentMenu->Update();
             break;
             
         case GameState::ARENA:
@@ -106,7 +110,8 @@ void GameManager::Draw() {
         case GameState::MAIN_MENU:
         case GameState::SETTINGS:
         case GameState::PAUSE:
-            currentMenu->Draw();
+            if(currentMenu)
+                currentMenu->Draw();
             break;
             
         case GameState::ARENA:
@@ -147,7 +152,7 @@ void GameManager::Draw() {
 void GameManager::SetGameState(GameState state) {
     currentState = state;
     if (menus.find(state) != menus.end()) {
-        currentMenu = std::move(menus[state]);
+        currentMenu = menus[state].get();  // Use raw pointer here too
     }
 }
 
@@ -162,4 +167,8 @@ void GameManager::ResetGame() {
 void GameManager::AddScore(int amount) {
     score += amount;
     player->AddScraps(amount / 10); // Convert some score to scraps
+}
+
+bool GameManager::ShouldClose() const {
+    return shouldClose;
 }

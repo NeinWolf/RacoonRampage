@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "raylib.h"
+#include "../Game/Utils.h"
 #include <cmath>
 
 Enemy::Enemy(EnemyType t, int hp, int dmg, float spd, Vector2 pos) :
@@ -25,7 +26,7 @@ void Enemy::Update(float deltaTime, Player* player) {
         gridPosition.y += direction.y * speed * deltaTime;
     }
     
-    transform.position = WorldToIso(gridPosition);
+    transform.position = Utils::WorldToIso(gridPosition);
 }
 
 void Enemy::TakeDamage(int dmg) {

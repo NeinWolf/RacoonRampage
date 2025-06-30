@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "raylib.h"
 #include "../Game/Utils.h" // For WorldToIso
+#include <cmath>
 
 Player::Player() : 
     health(100), maxHealth(100), 
@@ -41,11 +42,11 @@ void Player::Update(float deltaTime) {
         gridPosition.y += movement.y * deltaTime * 3;
         
         // Keep player in bounds
-        gridPosition.x = fmax(0, fmin(20, gridPosition.x));
-        gridPosition.y = fmax(0, fmin(20, gridPosition.y));
+        gridPosition.x = std::fmax(0, fmin(20, gridPosition.x));
+        gridPosition.y = std::fmax(0, fmin(20, gridPosition.y));
     }
     
-    transform.position = WorldToIso(gridPosition);
+    transform.position = Utils::WorldToIso(gridPosition);
 }
 
 void Player::Draw() const {
