@@ -6,7 +6,7 @@
 Player::Player() : 
     health(100), maxHealth(100), 
     stamina(50), maxStamina(50), 
-    scraps(0), gridPosition({5, 5}) {
+    scraps(0), gridPosition({5, 5}), lastMoveDir({0, 1}) {
     
     // Initialize animations
     std::vector<Rectangle> idleFrames = {{0, 0, 32, 32}, {32, 0, 32, 32}};
@@ -38,6 +38,10 @@ void Player::Update(float deltaTime) {
     if (IsKeyDown(KEY_D)) movement.x += 1;
     
     if (movement.x != 0 || movement.y != 0) {
+        float len = sqrtf(movement.x * movement.x + movement.y * movement.y);
+        if (len > 0) {
+            lastMoveDir = { movement.x / len, movement.y / len };
+        }
         gridPosition.x += movement.x * deltaTime * 3;
         gridPosition.y += movement.y * deltaTime * 3;
         
@@ -68,7 +72,7 @@ void Player::TakeDamage(int damage) {
 void Player::Attack() {
     currentAnimation = animations["attack"];
     currentAnimation->Reset();
-    weapon->Attack(transform.position, {0, 0}); // Default direction
+    weapon->Attack(transform.position, lastMoveDir);
 }
 
 void Player::UseAbility(int index) {
