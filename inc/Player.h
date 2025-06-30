@@ -13,6 +13,7 @@ private:
     int maxStamina;
     int scraps;
     Vector2 gridPosition;
+    Vector2 lastMoveDir;
     std::unique_ptr<Weapon> weapon;
     std::vector<std::unique_ptr<Ability>> abilities;
 
@@ -25,6 +26,8 @@ public:
     void TakeDamage(int damage);
     void Attack();
     void UseAbility(int index);
+
+    Vector2 GetLastMoveDir() const { return lastMoveDir; }
     
     // Getters
     int GetHealth() const { return health; }

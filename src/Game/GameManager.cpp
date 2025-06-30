@@ -68,6 +68,24 @@ void GameManager::UpdateArena(float deltaTime) {
     }
     
     gameTimer += deltaTime;
+    if (IsKeyPressed(KEY_SPACE)) {
+        player->Attack();
+
+        Vector2 atkPos = player->GetGridPosition();
+        Vector2 dir = player->GetLastMoveDir();
+        atkPos.x += dir.x;
+        atkPos.y += dir.y;
+
+        for (auto& enemy : enemies) {
+            if (!enemy->IsAlive()) continue;
+            Vector2 epos = enemy->GetGridPosition();
+            float dx = epos.x - atkPos.x;
+            float dy = epos.y - atkPos.y;
+            if (dx * dx + dy * dy <= 1.0f) {
+                enemy->TakeDamage(player->GetWeapon()->GetDamage());
+            }
+        }
+    }
     player->Update(deltaTime);
     waveManager->Update(deltaTime, enemies);
     
