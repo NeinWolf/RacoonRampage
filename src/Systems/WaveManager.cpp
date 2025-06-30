@@ -5,13 +5,14 @@
 #include "raylib.h"
 #include <algorithm>
 
-WaveManager::WaveManager() 
-    : currentWave(1), waveTimer(0), spawnTimer(0), enemiesSpawned(0), enemiesToSpawn(5) {}
+WaveManager::WaveManager()
+    : currentWave(1), waveTimer(0), spawnTimer(0), enemiesSpawned(0), enemiesToSpawn(5),
+      spawnInterval(2.0f), healthMultiplier(1.0f), damageMultiplier(1.0f) {}
 
 void WaveManager::Update(float deltaTime, std::vector<std::unique_ptr<Enemy>>& enemies) {
     spawnTimer += deltaTime;
     
-    if (enemiesSpawned < enemiesToSpawn && spawnTimer >= 2.0f) {
+    if (enemiesSpawned < enemiesToSpawn && spawnTimer >= spawnInterval) {
         SpawnEnemy(enemies);
         spawnTimer = 0;
     }
@@ -41,12 +42,15 @@ void WaveManager::SpawnEnemy(std::vector<std::unique_ptr<Enemy>>& enemies) {
     switch (enemyType) {
         case 0:
             enemies.push_back(std::make_unique<Slime>(spawnPos));
+            enemies.back()->ScaleStats(healthMultiplier, damageMultiplier);
             break;
         case 1:
             enemies.push_back(std::make_unique<SodaCan>(spawnPos));
+            enemies.back()->ScaleStats(healthMultiplier, damageMultiplier);
             break;
         case 2:
             enemies.push_back(std::make_unique<PizzaBox>(spawnPos));
+            enemies.back()->ScaleStats(healthMultiplier, damageMultiplier);
             break;
     }
     
@@ -57,6 +61,9 @@ void WaveManager::NextWave() {
     currentWave++;
     enemiesSpawned = 0;
     enemiesToSpawn += 2;
+    healthMultiplier *= 1.2f;
+    damageMultiplier *= 1.1f;
+    spawnInterval = std::max(0.5f, spawnInterval * 0.95f);
 }
 
 int WaveManager::GetCurrentWave() const {

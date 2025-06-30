@@ -10,6 +10,9 @@ private:
     float spawnTimer;
     int enemiesSpawned;
     int enemiesToSpawn;
+    float spawnInterval;
+    float healthMultiplier;
+    float damageMultiplier;
     
 public:
     WaveManager();
