@@ -90,11 +90,10 @@ void GameManager::UpdateArena(float deltaTime) {
     waveManager->Update(deltaTime, enemies);
     
     for (auto& enemy : enemies) {
+        int prevHealth = enemy->GetHealth();
         enemy->Update(deltaTime, player.get());
-        
-        if (enemy->IsAlive() && enemy->CheckCollision(player.get())) {
-            player->TakeDamage(enemy->GetDamage());
-            enemy->TakeDamage(100); // Instant kill for now
+
+        if (prevHealth > 0 && !enemy->IsAlive()) {
             AddScore(10);
         }
     }
