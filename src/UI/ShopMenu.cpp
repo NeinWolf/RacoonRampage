@@ -52,4 +52,3 @@ void ShopMenu::Draw() {
     Color exitColor = (selectedItem == (int)items.size()) ? GREEN : WHITE;
     DrawText("EXIT", 360, 200 + items.size() * 40, 20, exitColor);
 }
-
