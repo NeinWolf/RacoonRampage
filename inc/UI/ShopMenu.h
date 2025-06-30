@@ -1,9 +1,7 @@
 #pragma once
 #include "Menu.h"
-#include "Weapon.h"
+#include "../Weapon.h"
 #include <vector>
-#include <string>
-
 
 struct ShopItem {
     std::string name;
@@ -22,3 +20,4 @@ public:
     void Update() override;
     void Draw() override;
 };
+
