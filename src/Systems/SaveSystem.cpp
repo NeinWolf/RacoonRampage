@@ -47,3 +47,24 @@ void SaveSystem::LoadSettings(float& masterVolume, float& sfxVolume, float& musi
         musicVolume = 0.4f;
     }
 }
+
+void SaveSystem::SaveScraps(int scraps) {
+    std::thread([scraps]() {
+        fs::path dir = fs::current_path() / "saves";
+        fs::create_directories(dir);
+        std::ofstream file(dir / "scraps.txt");
+        if (file.is_open()) {
+            file << scraps;
+        }
+    }).detach();
+}
+
+int SaveSystem::LoadScraps() {
+    fs::path path = fs::current_path() / "saves" / "scraps.txt";
+    std::ifstream file(path);
+    int scraps = 0;
+    if (file.is_open()) {
+        file >> scraps;
+    }
+    return scraps;
+}
