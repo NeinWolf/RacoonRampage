@@ -13,13 +13,18 @@ protected:
     int damage;
     float speed;
     Vector2 gridPosition;
+    float attackCooldown;
+    float attackTimer;
+    float hurtTimer;
 
 public:
     Enemy(EnemyType t, int hp, int dmg, float spd, Vector2 pos);
-    
+
     virtual void Update(float deltaTime, Player* player);
     virtual void Draw() const override = 0;
-    
+
+    virtual void Attack(Player* player);
+
     void TakeDamage(int dmg);
     bool CheckCollision(const Player* player) const;
     
