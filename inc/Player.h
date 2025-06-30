@@ -17,6 +17,12 @@ private:
     std::unique_ptr<Weapon> weapon;
     std::vector<std::unique_ptr<Ability>> abilities;
 
+    // Attack state
+    bool isAttacking;
+    float attackTimer;
+    float attackDuration;
+    Vector2 attackDir;
+
 public:
     Player();
     
@@ -24,10 +30,12 @@ public:
     void Draw() const override;
     
     void TakeDamage(int damage);
-    void Attack();
+    void Attack(Vector2 direction);
     void UseAbility(int index);
 
     Vector2 GetLastMoveDir() const { return lastMoveDir; }
+    bool IsAttacking() const { return isAttacking; }
+    Vector2 GetAttackDir() const { return attackDir; }
     
     // Getters
     int GetHealth() const { return health; }
