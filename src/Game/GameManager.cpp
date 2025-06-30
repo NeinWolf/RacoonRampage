@@ -2,6 +2,7 @@
 #include "MainMenu.h"
 #include "SettingsMenu.h"
 #include "PauseMenu.h"
+#include "ShopMenu.h"
 #include "Utils.h"
 #include "raylib.h"
 #include <ranges>
@@ -22,6 +23,7 @@ GameManager::GameManager() :
     
     highScore = SaveSystem::LoadHighScore();
     player->SetScraps(SaveSystem::LoadScraps());
+    player->SetWeapon(CreateWeaponFromName(SaveSystem::LoadWeapon()));
     InitializeMenus();
 }
 
@@ -33,7 +35,8 @@ void GameManager::InitializeMenus() {
     menus[GameState::MAIN_MENU] = std::make_unique<MainMenu>(this);
     menus[GameState::SETTINGS] = std::make_unique<SettingsMenu>(this, audioManager.get());
     menus[GameState::PAUSE] = std::make_unique<PauseMenu>(this);
-    
+    menus[GameState::SHOP] = std::make_unique<ShopMenu>(this);
+
     currentMenu = menus[GameState::MAIN_MENU].get();  // Use raw pointer instead of moving unique_ptr
 }
 
@@ -51,11 +54,15 @@ void GameManager::Update() {
         case GameState::ARENA:
             UpdateArena(deltaTime);
             break;
-            
+
+        case GameState::SHOP:
+            if(currentMenu)
+                currentMenu->Update();
+            break;
+
         case GameState::GAME_OVER:
             if (IsKeyPressed(KEY_ENTER)) {
-                ResetGame();
-                SetGameState(GameState::MAIN_MENU);
+                SetGameState(GameState::SHOP);
             }
             break;
             
@@ -232,7 +239,12 @@ void GameManager::Draw() {
             player->Draw();
             hud->Draw(player.get(), score, waveManager->GetCurrentWave());
             break;
-            
+
+        case GameState::SHOP:
+            if(currentMenu)
+                currentMenu->Draw();
+            break;
+
         case GameState::GAME_OVER:
             DrawText("GAME OVER", 300, 200, 40, RED);
             DrawText(TextFormat("FINAL SCORE: %d", score), 300, 280, 30, WHITE);
@@ -258,6 +270,7 @@ void GameManager::SetGameState(GameState state) {
 void GameManager::ResetGame() {
     player = std::make_unique<Player>();
     player->SetScraps(SaveSystem::LoadScraps());
+    player->SetWeapon(CreateWeaponFromName(SaveSystem::LoadWeapon()));
     enemies.clear();
     waveManager = std::make_unique<WaveManager>();
     score = 0;
@@ -272,4 +285,15 @@ void GameManager::AddScore(int amount) {
 
 bool GameManager::ShouldClose() const {
     return shouldClose;
+}
+
+std::unique_ptr<Weapon> GameManager::CreateWeaponFromName(const std::string& name) {
+    if (name == "Knife") {
+        return std::make_unique<Weapon>("Knife", 15, 1.0f);
+    } else if (name == "Bat") {
+        return std::make_unique<Weapon>("Bat", 20, 0.8f);
+    } else if (name == "Chain") {
+        return std::make_unique<Weapon>("Chain", 25, 0.6f);
+    }
+    return std::make_unique<Weapon>("Bottle", 10, 1.0f);
 }

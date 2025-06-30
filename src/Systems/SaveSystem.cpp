@@ -68,3 +68,26 @@ int SaveSystem::LoadScraps() {
     }
     return scraps;
 }
+
+void SaveSystem::SaveWeapon(const std::string& weaponName) {
+    std::thread([weaponName]() {
+        fs::path dir = fs::current_path() / "saves";
+        fs::create_directories(dir);
+        std::ofstream file(dir / "weapon.txt");
+        if (file.is_open()) {
+            file << weaponName;
+        }
+    }).detach();
+}
+
+std::string SaveSystem::LoadWeapon() {
+    fs::path path = fs::current_path() / "saves" / "weapon.txt";
+    std::ifstream file(path);
+    std::string weaponName;
+    if (file.is_open()) {
+        file >> weaponName;
+    } else {
+        weaponName = "Bottle";
+    }
+    return weaponName;
+}

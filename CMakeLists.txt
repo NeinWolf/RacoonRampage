@@ -43,6 +43,7 @@ set(SOURCES
     src/UI/MainMenu.cpp
     src/UI/PauseMenu.cpp
     src/UI/SettingsMenu.cpp
+    src/UI/ShopMenu.cpp
     
     # Main
     src/main.cpp
@@ -68,9 +69,10 @@ set(HEADERS
         inc/SettingsMenu.h 
         inc/Slime.h 
         inc/SodaCan.h 
-        inc/Utils.h 
-        inc/WaveManager.h 
+        inc/Utils.h
+        inc/WaveManager.h
         inc/Weapon.h
+        inc/UI/ShopMenu.h
 )
 
 add_executable(RaccoonRampage ${SOURCES} ${HEADERS})
