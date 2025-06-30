@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include "raylib.h"
 #include <ranges>
+#include <cmath>
 
 GameManager::GameManager() : 
     currentState(GameState::MAIN_MENU),
@@ -68,11 +69,25 @@ void GameManager::UpdateArena(float deltaTime) {
     }
     
     gameTimer += deltaTime;
-    if (IsKeyPressed(KEY_SPACE)) {
-        player->Attack();
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+        Vector2 mouse = GetMousePosition();
+        Vector2 iso = { mouse.x - 400, mouse.y - 300 };
+        Vector2 world = Utils::IsoToWorld(iso);
+
+        Vector2 dir = {
+            world.x - player->GetGridPosition().x,
+            world.y - player->GetGridPosition().y
+        };
+
+        float len = sqrtf(dir.x * dir.x + dir.y * dir.y);
+        if (len > 0) {
+            dir.x /= len;
+            dir.y /= len;
+        }
+
+        player->Attack(dir);
 
         Vector2 atkPos = player->GetGridPosition();
-        Vector2 dir = player->GetLastMoveDir();
         atkPos.x += dir.x;
         atkPos.y += dir.y;
 

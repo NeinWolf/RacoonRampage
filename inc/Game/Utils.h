@@ -11,6 +11,13 @@ namespace Utils {
         };
     }
 
+    inline Vector2 IsoToWorld(Vector2 isoPos) {
+        return {
+            (isoPos.x / 32.0f + isoPos.y / 16.0f) * 0.5f,
+            (isoPos.y / 16.0f - isoPos.x / 32.0f) * 0.5f
+        };
+    }
+
     // Clamp value between min and max
     template<typename T>
     inline T Clamp(T value, T min, T max) {

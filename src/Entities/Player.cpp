@@ -3,10 +3,11 @@
 #include "Utils.h" // For WorldToIso
 #include <cmath>
 
-Player::Player() : 
-    health(100), maxHealth(100), 
-    stamina(50), maxStamina(50), 
-    scraps(0), gridPosition({5, 5}), lastMoveDir({0, 1}) {
+Player::Player() :
+    health(100), maxHealth(100),
+    stamina(50), maxStamina(50),
+    scraps(0), gridPosition({5, 5}), lastMoveDir({0, 1}),
+    isAttacking(false), attackTimer(0.0f), attackDuration(0.2f), attackDir({0,1}) {
     
     // Initialize animations
     std::vector<Rectangle> idleFrames = {{0, 0, 32, 32}, {32, 0, 32, 32}};
@@ -24,6 +25,13 @@ Player::Player() :
 
 void Player::Update(float deltaTime) {
     currentAnimation->Update(deltaTime);
+
+    if (isAttacking) {
+        attackTimer += deltaTime;
+        if (attackTimer >= attackDuration) {
+            isAttacking = false;
+        }
+    }
     
     // Update abilities
     for (auto& ability : abilities) {
@@ -57,6 +65,13 @@ void Player::Draw() const {
     Vector2 screenPos = {400 + transform.position.x, 300 + transform.position.y};
     DrawRectangle(screenPos.x - 16, screenPos.y - 16, 32, 32, GREEN);
     DrawText("R", screenPos.x - 6, screenPos.y - 8, 20, WHITE);
+
+    if (isAttacking) {
+        Vector2 atkGrid = { gridPosition.x + attackDir.x, gridPosition.y + attackDir.y };
+        Vector2 atkIso = Utils::WorldToIso(atkGrid);
+        Vector2 atkScreen = { 400 + atkIso.x, 300 + atkIso.y };
+        DrawCircle(atkScreen.x, atkScreen.y, 16, ColorAlpha(RED, 0.5f));
+    }
 }
 
 void Player::TakeDamage(int damage) {
@@ -69,10 +84,13 @@ void Player::TakeDamage(int damage) {
     currentAnimation->Reset();
 }
 
-void Player::Attack() {
+void Player::Attack(Vector2 direction) {
     currentAnimation = animations["attack"];
     currentAnimation->Reset();
-    weapon->Attack(transform.position, lastMoveDir);
+    weapon->Attack(transform.position, direction);
+    attackDir = direction;
+    isAttacking = true;
+    attackTimer = 0.0f;
 }
 
 void Player::UseAbility(int index) {
