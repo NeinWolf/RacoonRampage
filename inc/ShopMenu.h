@@ -2,6 +2,8 @@
 #include "Menu.h"
 #include "Weapon.h"
 #include <vector>
+#include <string>
+
 
 struct ShopItem {
     std::string name;
