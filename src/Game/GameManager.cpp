@@ -97,7 +97,11 @@ void GameManager::UpdateArena(float deltaTime) {
             float dx = epos.x - atkPos.x;
             float dy = epos.y - atkPos.y;
             if (dx * dx + dy * dy <= 1.0f) {
+                bool wasAlive = enemy->IsAlive();
                 enemy->TakeDamage(player->GetWeapon()->GetDamage());
+                if (wasAlive && !enemy->IsAlive()) {
+                    AddScore(10);
+                }
             }
         }
     }
