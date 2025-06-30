@@ -21,8 +21,9 @@ GameManager::GameManager() :
     audioManager = std::make_unique<AudioManager>();
     hud = std::make_unique<HUD>();
     
-    highScore = SaveSystem::LoadHighScore();
-    player->SetScraps(SaveSystem::LoadScraps());
+    int loadedScraps = 0;
+    highScore = SaveSystem::LoadHighScore(loadedScraps);
+    player->SetScraps(loadedScraps);
     player->SetWeapon(CreateWeaponFromName(SaveSystem::LoadWeapon()));
     InitializeMenus();
 }
@@ -132,9 +133,8 @@ void GameManager::UpdateArena(float deltaTime) {
     if (player->GetHealth() <= 0) {
         if (score > highScore) {
             highScore = score;
-            SaveSystem::SaveHighScore(highScore);
         }
-        SaveSystem::SaveScraps(player->GetScraps());
+        SaveSystem::SaveHighScore(highScore, player->GetScraps());
         SetGameState(GameState::GAME_OVER);
     }
     
@@ -269,7 +269,11 @@ void GameManager::SetGameState(GameState state) {
 
 void GameManager::ResetGame() {
     player = std::make_unique<Player>();
-    player->SetScraps(SaveSystem::LoadScraps());
+    {
+        int loadedScraps = 0;
+        SaveSystem::LoadHighScore(loadedScraps);
+        player->SetScraps(loadedScraps);
+    }
     player->SetWeapon(CreateWeaponFromName(SaveSystem::LoadWeapon()));
     enemies.clear();
     waveManager = std::make_unique<WaveManager>();
