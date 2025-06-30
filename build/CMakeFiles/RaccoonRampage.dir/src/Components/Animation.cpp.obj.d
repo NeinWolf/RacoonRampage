@@ -1,6 +1,6 @@
 CMakeFiles/RaccoonRampage.dir/src/Components/Animation.cpp.obj: \
  C:\Users\night\Desktop\RacoonRampage\src\Components\Animation.cpp \
- C:/Users/night/Desktop/RacoonRampage/inc/Components/Animation.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Animation.h \
  C:/raylib/raylib/src/raylib.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \
  C:/msys64/ucrt64/include/stdarg.h \

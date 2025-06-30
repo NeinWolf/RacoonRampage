@@ -1,7 +1,7 @@
 #include "WaveManager.h"
-#include "../Entities/Enemies/Slime.h"
-#include "../Entities/Enemies/SodaCan.h"
-#include "../Entities/Enemies/PizzaBox.h"
+#include "Slime.h"
+#include "SodaCan.h"
+#include "PizzaBox.h"
 #include "raylib.h"
 
 WaveManager::WaveManager() 

@@ -1,7 +1,7 @@
 CMakeFiles/RaccoonRampage.dir/src/Entities/Entity.cpp.obj: \
  C:\Users\night\Desktop\RacoonRampage\src\Entities\Entity.cpp \
- C:/Users/night/Desktop/RacoonRampage/inc/Entities/Entity.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Game/GameTransform.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Entity.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/GameTransform.h \
  C:/raylib/raylib/src/raylib.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \
  C:/msys64/ucrt64/include/stdarg.h \
@@ -10,7 +10,7 @@ CMakeFiles/RaccoonRampage.dir/src/Entities/Entity.cpp.obj: \
  C:/msys64/ucrt64/include/_mingw_mac.h \
  C:/msys64/ucrt64/include/_mingw_secapi.h \
  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Components/Animation.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Animation.h \
  C:/msys64/ucrt64/include/c++/14.2.0/vector \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++config.h \

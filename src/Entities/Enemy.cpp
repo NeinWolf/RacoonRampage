@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "raylib.h"
-#include "../Game/Utils.h"
+#include "Utils.h"
 #include <cmath>
 
 Enemy::Enemy(EnemyType t, int hp, int dmg, float spd, Vector2 pos) :

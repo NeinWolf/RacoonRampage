@@ -1,8 +1,8 @@
 #include "GameManager.h"
-#include "../UI/MainMenu.h"
-#include "../UI/SettingsMenu.h"
-#include "../UI/PauseMenu.h"
-#include "../Game/Utils.h"
+#include "MainMenu.h"
+#include "SettingsMenu.h"
+#include "PauseMenu.h"
+#include "Utils.h"
 #include "raylib.h"
 #include <algorithm>   // Added for std::remove_if
 

@@ -1,12 +1,12 @@
 CMakeFiles/RaccoonRampage.dir/src/UI/MainMenu.cpp.obj: \
  C:\Users\night\Desktop\RacoonRampage\src\UI\MainMenu.cpp \
- C:/Users/night/Desktop/RacoonRampage/inc/UI/MainMenu.h \
- C:/Users/night/Desktop/RacoonRampage/inc/UI/Menu.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Game/GameManager.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Game/GameState.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Entities/Player.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Entities/Entity.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Game/GameTransform.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/MainMenu.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Menu.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/GameManager.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/GameState.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Player.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Entity.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/GameTransform.h \
  C:/raylib/raylib/src/raylib.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/14.2.0/include/stdarg.h \
  C:/msys64/ucrt64/include/stdarg.h \
@@ -15,7 +15,7 @@ CMakeFiles/RaccoonRampage.dir/src/UI/MainMenu.cpp.obj: \
  C:/msys64/ucrt64/include/_mingw_mac.h \
  C:/msys64/ucrt64/include/_mingw_secapi.h \
  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Components/Animation.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Animation.h \
  C:/msys64/ucrt64/include/c++/14.2.0/vector \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -128,8 +128,8 @@ CMakeFiles/RaccoonRampage.dir/src/UI/MainMenu.cpp.obj: \
  C:/msys64/ucrt64/include/c++/14.2.0/cerrno \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/charconv.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/basic_string.tcc \
- C:/Users/night/Desktop/RacoonRampage/inc/Components/Ability.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Components/Weapon.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Ability.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Weapon.h \
  C:/msys64/ucrt64/include/c++/14.2.0/memory \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_tempbuf.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_raw_storage_iter.h \
@@ -193,11 +193,11 @@ CMakeFiles/RaccoonRampage.dir/src/UI/MainMenu.cpp.obj: \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/ranges_algobase.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/glue_memory_defs.h \
  C:/msys64/ucrt64/include/c++/14.2.0/pstl/execution_defs.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Entities/Enemy.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Entities/EnemyType.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Systems/WaveManager.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Systems/AudioManager.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Systems/SaveSystem.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Enemy.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/EnemyType.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/WaveManager.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/AudioManager.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/SaveSystem.h \
  C:/msys64/ucrt64/include/c++/14.2.0/fstream \
  C:/msys64/ucrt64/include/c++/14.2.0/istream \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/istream.tcc \
@@ -205,4 +205,4 @@ CMakeFiles/RaccoonRampage.dir/src/UI/MainMenu.cpp.obj: \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/basic_file.h \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++io.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/fstream.tcc \
- C:/Users/night/Desktop/RacoonRampage/inc/Systems/HUD.h
+ C:/Users/night/Desktop/RacoonRampage/inc/HUD.h

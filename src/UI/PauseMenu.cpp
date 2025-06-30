@@ -1,6 +1,6 @@
 #include "PauseMenu.h"
 #include "raylib.h"
-#include "../Game/GameState.h"
+#include "GameState.h"
 
 PauseMenu::PauseMenu(GameManager* gm) : Menu(gm), selectedMenuItem(0) {}
 

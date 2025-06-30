@@ -19,7 +19,7 @@ float AudioManager::GetMusicVolume() const { return musicVolume; }
 // Setters
 void AudioManager::SetMasterVolume(float volume) { 
     masterVolume = volume; 
-    SetMasterVolume(masterVolume);
+    ::SetMasterVolume(masterVolume);
 }
 void AudioManager::SetSFXVolume(float volume) { sfxVolume = volume; }
 void AudioManager::SetMusicVolume(float volume) { musicVolume = volume; }

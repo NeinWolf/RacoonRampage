@@ -1,6 +1,6 @@
 CMakeFiles/RaccoonRampage.dir/src/Components/Ability.cpp.obj: \
  C:\Users\night\Desktop\RacoonRampage\src\Components\Ability.cpp \
- C:/Users/night/Desktop/RacoonRampage/inc/Components/Ability.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/Ability.h \
  C:/msys64/ucrt64/include/c++/14.2.0/string \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++config.h \

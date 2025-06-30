@@ -1,7 +1,7 @@
 CMakeFiles/RaccoonRampage.dir/src/Systems/AudioManager.cpp.obj: \
  C:\Users\night\Desktop\RacoonRampage\src\Systems\AudioManager.cpp \
- C:/Users/night/Desktop/RacoonRampage/inc/Systems/AudioManager.h \
- C:/Users/night/Desktop/RacoonRampage/inc/Systems/SaveSystem.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/AudioManager.h \
+ C:/Users/night/Desktop/RacoonRampage/inc/SaveSystem.h \
  C:/msys64/ucrt64/include/c++/14.2.0/string \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++config.h \

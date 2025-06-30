@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Include headers
 include_directories(inc)
 include_directories("C:/raylib/raylib/src")
-include_directories("C:/raylib/raylib/src/external")
 
 if(WIN32)
     link_directories("C:/raylib/raylib/src")
@@ -48,14 +47,30 @@ set(SOURCES
     # Main
     src/main.cpp
 )
-include_directories(
-    ${CMAKE_SOURCE_DIR}/inc
-    ${CMAKE_SOURCE_DIR}/inc/Components
-    ${CMAKE_SOURCE_DIR}/inc/Entities
-    ${CMAKE_SOURCE_DIR}/inc/Entities/Enemies
-    ${CMAKE_SOURCE_DIR}/inc/Game
-    ${CMAKE_SOURCE_DIR}/inc/Systems
-    ${CMAKE_SOURCE_DIR}/inc/UI
+set(HEADERS
+        inc/Ability.h 
+        inc/Animation.h 
+        inc/AudioManager.h 
+        inc/Enemy.h 
+        inc/EnemyType.h 
+        inc/Entity.h 
+        inc/GameManager.h 
+        inc/GameState.h 
+        inc/GameTransform.h 
+        inc/HUD.h 
+        inc/MainMenu.h 
+        inc/Menu.h 
+        inc/PauseMenu.h 
+        inc/Pizzabox.h 
+        inc/Player.h 
+        inc/Projectile.h 
+        inc/SaveSystem.h 
+        inc/SettingsMenu.h 
+        inc/Slime.h 
+        inc/SodaCan.h 
+        inc/Utils.h 
+        inc/WaveManager.h 
+        inc/Weapon.h
 )
 
 add_executable(RaccoonRampage ${SOURCES} ${HEADERS})
