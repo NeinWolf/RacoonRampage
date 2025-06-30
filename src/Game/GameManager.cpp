@@ -120,6 +120,7 @@ void GameManager::UpdateArena(float deltaTime) {
 
     ResolveEnemyCollisions();
     ResolvePlayerEnemyCollisions();
+
     
     if (player->GetHealth() <= 0) {
         if (score > highScore) {
@@ -170,6 +171,7 @@ void GameManager::ResolveEnemyCollisions() {
         }
     }
 }
+
 
 void GameManager::ResolvePlayerEnemyCollisions() {
     const float minDist = 0.8f;

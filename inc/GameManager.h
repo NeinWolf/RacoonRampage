@@ -60,4 +60,5 @@ private:
     void CleanupEnemies();
     void ResolveEnemyCollisions();
     void ResolvePlayerEnemyCollisions();
+
 };
