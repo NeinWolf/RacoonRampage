@@ -119,12 +119,15 @@ void GameManager::UpdateArena(float deltaTime) {
     }
 
     ResolveEnemyCollisions();
+    ResolvePlayerEnemyCollisions();
+
     
     if (player->GetHealth() <= 0) {
         if (score > highScore) {
             highScore = score;
             SaveSystem::SaveHighScore(highScore);
         }
+        SaveSystem::SaveScraps(player->GetScraps());
         SetGameState(GameState::GAME_OVER);
     }
     
@@ -165,6 +168,35 @@ void GameManager::ResolveEnemyCollisions() {
                 enemies[i]->SetGridPosition(posA);
                 enemies[j]->SetGridPosition(posB);
             }
+        }
+    }
+}
+
+
+void GameManager::ResolvePlayerEnemyCollisions() {
+    const float minDist = 0.8f;
+    Vector2 pPos = player->GetGridPosition();
+    for (auto& enemy : enemies) {
+        if (!enemy->IsAlive()) continue;
+        Vector2 ePos = enemy->GetGridPosition();
+        float dx = ePos.x - pPos.x;
+        float dy = ePos.y - pPos.y;
+        float distSq = dx * dx + dy * dy;
+        if (distSq < minDist * minDist && distSq > 0.0001f) {
+            float dist = sqrtf(distSq);
+            float overlap = (minDist - dist);
+            dx /= dist;
+            dy /= dist;
+            pPos.x -= dx * overlap * 0.5f;
+            pPos.y -= dy * overlap * 0.5f;
+            ePos.x += dx * overlap * 0.5f;
+            ePos.y += dy * overlap * 0.5f;
+            pPos.x = Utils::Clamp(pPos.x, 0.0f, 20.0f);
+            pPos.y = Utils::Clamp(pPos.y, 0.0f, 20.0f);
+            ePos.x = Utils::Clamp(ePos.x, 0.0f, 20.0f);
+            ePos.y = Utils::Clamp(ePos.y, 0.0f, 20.0f);
+            player->SetGridPosition(pPos);
+            enemy->SetGridPosition(ePos);
         }
     }
 }

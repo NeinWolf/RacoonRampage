@@ -59,4 +59,6 @@ private:
     void UpdateArena(float deltaTime);
     void CleanupEnemies();
     void ResolveEnemyCollisions();
+    void ResolvePlayerEnemyCollisions();
+
 };

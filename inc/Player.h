@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Ability.h"
 #include "Weapon.h"
+#include "Utils.h"
 #include <vector>
 #include <memory>
 
@@ -46,8 +47,10 @@ public:
     Vector2 GetGridPosition() const { return gridPosition; }
     const std::vector<std::unique_ptr<Ability>>& GetAbilities() const { return abilities; }
     const Weapon* GetWeapon() const { return weapon.get(); }
-    
+
     // Setters
     void AddScraps(int amount) { scraps += amount; }
     void SetScraps(int amount) { scraps = amount; }
+    void SetGridPosition(Vector2 pos) { gridPosition = pos; transform.position = Utils::WorldToIso(gridPosition); }
+
 };
