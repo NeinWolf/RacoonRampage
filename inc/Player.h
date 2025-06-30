@@ -52,5 +52,6 @@ public:
     void AddScraps(int amount) { scraps += amount; }
     void SetScraps(int amount) { scraps = amount; }
     void SetGridPosition(Vector2 pos) { gridPosition = pos; transform.position = Utils::WorldToIso(gridPosition); }
+    void SetWeapon(std::unique_ptr<Weapon> newWeapon) { weapon = std::move(newWeapon); }
 
 };
