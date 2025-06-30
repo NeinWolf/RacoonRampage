@@ -4,23 +4,25 @@
 
 namespace fs = std::filesystem;
 
-void SaveSystem::SaveHighScore(int score) {
-    std::thread([score]() {
+void SaveSystem::SaveHighScore(int score, int scraps) {
+    std::thread([score, scraps]() {
         fs::path dir = fs::current_path() / "saves";
         fs::create_directories(dir);
         std::ofstream file(dir / "highscore.txt");
         if (file.is_open()) {
-            file << score;
+            file << score << ' ' << scraps;
         }
     }).detach();
 }
 
-int SaveSystem::LoadHighScore() {
+int SaveSystem::LoadHighScore(int& scraps) {
     fs::path path = fs::current_path() / "saves" / "highscore.txt";
     std::ifstream file(path);
     int score = 0;
     if (file.is_open()) {
-        file >> score;
+        file >> score >> scraps;
+    } else {
+        scraps = 0;
     }
     return score;
 }
@@ -49,23 +51,14 @@ void SaveSystem::LoadSettings(float& masterVolume, float& sfxVolume, float& musi
 }
 
 void SaveSystem::SaveScraps(int scraps) {
-    std::thread([scraps]() {
-        fs::path dir = fs::current_path() / "saves";
-        fs::create_directories(dir);
-        std::ofstream file(dir / "scraps.txt");
-        if (file.is_open()) {
-            file << scraps;
-        }
-    }).detach();
+    int currentScraps = 0;
+    int currentScore = LoadHighScore(currentScraps);
+    SaveHighScore(currentScore, scraps);
 }
 
 int SaveSystem::LoadScraps() {
-    fs::path path = fs::current_path() / "saves" / "scraps.txt";
-    std::ifstream file(path);
     int scraps = 0;
-    if (file.is_open()) {
-        file >> scraps;
-    }
+    LoadHighScore(scraps);
     return scraps;
 }
 
