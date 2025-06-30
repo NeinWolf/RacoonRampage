@@ -21,6 +21,7 @@ GameManager::GameManager() :
     hud = std::make_unique<HUD>();
     
     highScore = SaveSystem::LoadHighScore();
+    player->SetScraps(SaveSystem::LoadScraps());
     InitializeMenus();
 }
 
@@ -116,6 +117,8 @@ void GameManager::UpdateArena(float deltaTime) {
             AddScore(10);
         }
     }
+
+    ResolveEnemyCollisions();
     
     if (player->GetHealth() <= 0) {
         if (score > highScore) {
@@ -134,6 +137,36 @@ void GameManager::CleanupEnemies() {
             return !enemy->IsAlive();
         });
     enemies.erase(subrange.begin(), subrange.end());
+}
+
+void GameManager::ResolveEnemyCollisions() {
+    const float minDist = 0.8f;
+    for (size_t i = 0; i < enemies.size(); ++i) {
+        for (size_t j = i + 1; j < enemies.size(); ++j) {
+            if (!enemies[i]->IsAlive() || !enemies[j]->IsAlive()) continue;
+            Vector2 posA = enemies[i]->GetGridPosition();
+            Vector2 posB = enemies[j]->GetGridPosition();
+            float dx = posB.x - posA.x;
+            float dy = posB.y - posA.y;
+            float distSq = dx * dx + dy * dy;
+            if (distSq < minDist * minDist && distSq > 0.0001f) {
+                float dist = sqrtf(distSq);
+                float overlap = (minDist - dist) / 2.0f;
+                dx /= dist;
+                dy /= dist;
+                posA.x -= dx * overlap;
+                posA.y -= dy * overlap;
+                posB.x += dx * overlap;
+                posB.y += dy * overlap;
+                posA.x = Utils::Clamp(posA.x, 0.0f, 20.0f);
+                posA.y = Utils::Clamp(posA.y, 0.0f, 20.0f);
+                posB.x = Utils::Clamp(posB.x, 0.0f, 20.0f);
+                posB.y = Utils::Clamp(posB.y, 0.0f, 20.0f);
+                enemies[i]->SetGridPosition(posA);
+                enemies[j]->SetGridPosition(posB);
+            }
+        }
+    }
 }
 
 void GameManager::Draw() {
@@ -192,6 +225,7 @@ void GameManager::SetGameState(GameState state) {
 
 void GameManager::ResetGame() {
     player = std::make_unique<Player>();
+    player->SetScraps(SaveSystem::LoadScraps());
     enemies.clear();
     waveManager = std::make_unique<WaveManager>();
     score = 0;
@@ -201,6 +235,7 @@ void GameManager::ResetGame() {
 void GameManager::AddScore(int amount) {
     score += amount;
     player->AddScraps(amount / 10); // Convert some score to scraps
+    SaveSystem::SaveScraps(player->GetScraps());
 }
 
 bool GameManager::ShouldClose() const {

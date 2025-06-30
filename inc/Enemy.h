@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "GameState.h"
 #include "EnemyType.h"
+#include "Utils.h"
 
 class Player;
 
@@ -27,6 +28,13 @@ public:
 
     void TakeDamage(int dmg);
     bool CheckCollision(const Player* player) const;
+
+    void SetGridPosition(Vector2 pos) { gridPosition = pos; transform.position = Utils::WorldToIso(gridPosition); }
+    void ScaleStats(float hpMult, float dmgMult) {
+        health = static_cast<int>(health * hpMult);
+        maxHealth = static_cast<int>(maxHealth * hpMult);
+        damage = static_cast<int>(damage * dmgMult);
+    }
     
     // Getters
     int GetDamage() const { return damage; }

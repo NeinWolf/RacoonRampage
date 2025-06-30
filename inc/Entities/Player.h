@@ -47,4 +47,5 @@ public:
     
     // Setters
     void AddScraps(int amount) { scraps += amount; }
+    void SetScraps(int amount) { scraps = amount; }
 };
