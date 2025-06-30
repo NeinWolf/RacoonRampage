@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <fstream>
+#include <filesystem>
+#include <thread>
 
 class SaveSystem {
 public:

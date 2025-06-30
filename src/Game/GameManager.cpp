@@ -4,7 +4,7 @@
 #include "PauseMenu.h"
 #include "Utils.h"
 #include "raylib.h"
-#include <algorithm>   // Added for std::remove_if
+#include <ranges>
 
 GameManager::GameManager() : 
     currentState(GameState::MAIN_MENU),
@@ -111,13 +111,11 @@ void GameManager::UpdateArena(float deltaTime) {
 }
 
 void GameManager::CleanupEnemies() {
-    enemies.erase(
-        std::remove_if(enemies.begin(), enemies.end(),
-            [](const std::unique_ptr<Enemy>& enemy) { 
-                return !enemy->IsAlive(); 
-            }),
-        enemies.end()
-    );
+    auto subrange = std::ranges::remove_if(enemies,
+        [](const std::unique_ptr<Enemy>& enemy) {
+            return !enemy->IsAlive();
+        });
+    enemies.erase(subrange.begin(), subrange.end());
 }
 
 void GameManager::Draw() {

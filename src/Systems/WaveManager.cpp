@@ -3,6 +3,7 @@
 #include "SodaCan.h"
 #include "PizzaBox.h"
 #include "raylib.h"
+#include <ranges>
 
 WaveManager::WaveManager() 
     : currentWave(1), waveTimer(0), spawnTimer(0), enemiesSpawned(0), enemiesToSpawn(5) {}
@@ -16,13 +17,10 @@ void WaveManager::Update(float deltaTime, std::vector<std::unique_ptr<Enemy>>& e
     }
     
     // Check if wave is complete
-    bool allEnemiesDead = true;
-    for (auto& enemy : enemies) {
-        if (enemy->IsAlive()) {
-            allEnemiesDead = false;
-            break;
-        }
-    }
+    bool allEnemiesDead = std::ranges::all_of(enemies,
+        [](const std::unique_ptr<Enemy>& enemy) {
+            return !enemy->IsAlive();
+        });
     
     if (allEnemiesDead && enemiesSpawned >= enemiesToSpawn) {
         NextWave();
