@@ -3,6 +3,7 @@
 #include "SettingsMenu.h"
 #include "PauseMenu.h"
 #include "ShopMenu.h"
+#include "CreditsMenu.h"
 #include "Utils.h"
 #include "raylib.h"
 #include <ranges>
@@ -37,6 +38,7 @@ void GameManager::InitializeMenus() {
     menus[GameState::SETTINGS] = std::make_unique<SettingsMenu>(this, audioManager.get());
     menus[GameState::PAUSE] = std::make_unique<PauseMenu>(this);
     menus[GameState::SHOP] = std::make_unique<ShopMenu>(this);
+    menus[GameState::CREDITS] = std::make_unique<CreditsMenu>(this);
 
     currentMenu = menus[GameState::MAIN_MENU].get();  // Use raw pointer instead of moving unique_ptr
 }
@@ -48,6 +50,7 @@ void GameManager::Update() {
         case GameState::MAIN_MENU:
         case GameState::SETTINGS:
         case GameState::PAUSE:
+        case GameState::CREDITS:
             if(currentMenu)
                 currentMenu->Update();
             break;
@@ -216,6 +219,7 @@ void GameManager::Draw() {
         case GameState::MAIN_MENU:
         case GameState::SETTINGS:
         case GameState::PAUSE:
+        case GameState::CREDITS:
             if(currentMenu)
                 currentMenu->Draw();
             break;
